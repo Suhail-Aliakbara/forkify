@@ -1,5 +1,7 @@
+@use 'variables';
+@use 'sass:color';
 .recipe {
-  background-color: $color-grey-light-1;
+  background-color: variables.$color-grey-light-1;
 
   ///////////
   // FIGURE
@@ -19,8 +21,8 @@
       left: 0;
       background-image: linear-gradient(
         to right bottom,
-        $color-grad-1,
-        $color-grad-2
+        variables.$color-grad-1,
+        variables.$color-grad-2
       );
       opacity: 0.6;
     }
@@ -52,12 +54,12 @@
       padding: 1.3rem 2rem;
       background-image: linear-gradient(
         to right bottom,
-        $color-grad-1,
-        $color-grad-2
+        variables.$color-grad-1,
+        variables.$color-grad-2
       );
     }
 
-    @media only screen and (max-width: $bp-medium) {
+    @media only screen and (max-width: variables.$bp-medium) {
       width: 70%;
     }
   }
@@ -84,7 +86,7 @@
   &__info-icon {
     height: 2.35rem;
     width: 2.35rem;
-    fill: $color-primary;
+    fill: variables.$color-primary;
     margin-right: 1.15rem;
   }
 
@@ -100,7 +102,10 @@
   }
 
   &__user-generated {
-    background-color: darken($color-grey-light-2, 2%);
+    background-color: color.adjust(
+      variables.$color-grey-light-2,
+      $lightness: -2%
+    );
 
     display: flex;
     align-items: center;
@@ -115,7 +120,7 @@
     svg {
       height: 2.25rem;
       width: 2.25rem;
-      fill: $color-primary;
+      fill: variables.$color-primary;
     }
   }
 
@@ -125,7 +130,7 @@
     padding: 5rem 8rem;
     font-size: 1.6rem;
     line-height: 1.4;
-    background-color: $color-grey-light-2;
+    background-color: variables.$color-grey-light-2;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -145,7 +150,7 @@
   &__icon {
     height: 2rem;
     width: 2rem;
-    fill: $color-primary;
+    fill: variables.$color-primary;
     margin-right: 1.1rem;
     flex: 0 0 auto;
     margin-top: 0.1rem;
@@ -170,7 +175,7 @@
     font-size: 1.7rem;
     text-align: center;
     margin-bottom: 3.5rem;
-    color: $color-grey-dark-2;
+    color: variables.$color-grey-dark-2;
   }
 
   &__publisher {
