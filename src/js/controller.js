@@ -28,16 +28,19 @@ const showRecipe = async function () {
     parentEl.insertAdjacentHTML('afterbegin', markup);
   };
   try {
+    let id = window.location.hash.slice(1);
+    console.log(id);
+
+    if (!id) return;
     renderSpinner(recipeContainer);
     //1. loading the recipe
     const res = await fetch(
-      // 'https://forkify-api.jonas.io/api/v2/recipes/5ed6604591c37cdc054bc886'
-      'https://forkify-api.jonas.io/api/v2/recipes/664c8f193e7aa067e94e8482'
+      `https://forkify-api.jonas.io/api/v2/recipes/${id}`
     );
     const data = await res.json();
 
     if (!res.ok) throw new Error(`${data.message} (${res.status})`);
-    console.log(res, data);
+    // console.log(res, data);
 
     let { recipe } = data.data; //data.data.recipe can be destruct
     recipe = {
@@ -50,7 +53,7 @@ const showRecipe = async function () {
       image: recipe.image_url,
       ingredients: recipe.ingredients,
     };
-    console.log(recipe);
+    // console.log(recipe);
 
     //2. Rendering the recipe
     const markup = `
@@ -157,4 +160,4 @@ const showRecipe = async function () {
     alert(err);
   }
 };
-showRecipe();
+['hashchange', 'load'].map(ev => window.addEventListener(ev, showRecipe));
