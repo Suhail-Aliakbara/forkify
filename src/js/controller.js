@@ -1,3 +1,5 @@
+import * as model from './model.js';
+
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import icons from '../img/icons.svg';
@@ -33,27 +35,10 @@ const showRecipe = async function () {
 
     if (!id) return;
     renderSpinner(recipeContainer);
+
     //1. loading the recipe
-    const res = await fetch(
-      `https://forkify-api.jonas.io/api/v2/recipes/${id}`
-    );
-    const data = await res.json();
-
-    if (!res.ok) throw new Error(`${data.message} (${res.status})`);
-    // console.log(res, data);
-
-    let { recipe } = data.data; //data.data.recipe can be destruct
-    recipe = {
-      title: recipe.title,
-      id: recipe.id,
-      publisher: recipe.publisher,
-      servings: recipe.servings,
-      sourceUrl: recipe.source_url,
-      cookingTime: recipe.cooking_time,
-      image: recipe.image_url,
-      ingredients: recipe.ingredients,
-    };
-    // console.log(recipe);
+    await model.loadRecipe(id);
+    const { recipe } = model.state;
 
     //2. Rendering the recipe
     const markup = `
@@ -149,7 +134,7 @@ const showRecipe = async function () {
             >
               <span>Directions</span>
               <svg class="search__icon">
-                <use href="src/img/icons.svg#icon-arrow-right"></use>
+                <use href="${icons}#icon-arrow-right"></use>
               </svg>
             </a>
           </div>

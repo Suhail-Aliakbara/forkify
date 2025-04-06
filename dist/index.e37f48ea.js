@@ -598,6 +598,7 @@ function hmrAccept(bundle /*: ParcelRequire */ , id /*: string */ ) {
 },{}],"aenu9":[function(require,module,exports,__globalThis) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 var _webImmediateJs = require("core-js/modules/web.immediate.js");
+var _modelJs = require("./model.js");
 var _runtime = require("regenerator-runtime/runtime");
 var _iconsSvg = require("../img/icons.svg");
 var _iconsSvgDefault = parcelHelpers.interopDefault(_iconsSvg);
@@ -629,22 +630,8 @@ const showRecipe = async function() {
         if (!id) return;
         renderSpinner(recipeContainer);
         //1. loading the recipe
-        const res = await fetch(`https://forkify-api.jonas.io/api/v2/recipes/${id}`);
-        const data = await res.json();
-        if (!res.ok) throw new Error(`${data.message} (${res.status})`);
-        // console.log(res, data);
-        let { recipe } = data.data; //data.data.recipe can be destruct
-        recipe = {
-            title: recipe.title,
-            id: recipe.id,
-            publisher: recipe.publisher,
-            servings: recipe.servings,
-            sourceUrl: recipe.source_url,
-            cookingTime: recipe.cooking_time,
-            image: recipe.image_url,
-            ingredients: recipe.ingredients
-        };
-        // console.log(recipe);
+        await _modelJs.loadRecipe(id);
+        const { recipe } = _modelJs.state;
         //2. Rendering the recipe
         const markup = `
       <figure class="recipe__fig">
@@ -729,7 +716,7 @@ const showRecipe = async function() {
             >
               <span>Directions</span>
               <svg class="search__icon">
-                <use href="src/img/icons.svg#icon-arrow-right"></use>
+                <use href="${(0, _iconsSvgDefault.default)}#icon-arrow-right"></use>
               </svg>
             </a>
           </div>
@@ -745,7 +732,7 @@ const showRecipe = async function() {
     'load'
 ].map((ev)=>window.addEventListener(ev, showRecipe));
 
-},{"core-js/modules/web.immediate.js":"49tUX","regenerator-runtime/runtime":"dXNgZ","../img/icons.svg":"cMpiy","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"49tUX":[function(require,module,exports,__globalThis) {
+},{"core-js/modules/web.immediate.js":"49tUX","regenerator-runtime/runtime":"dXNgZ","../img/icons.svg":"cMpiy","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./model.js":"Y4A21"}],"49tUX":[function(require,module,exports,__globalThis) {
 'use strict';
 // TODO: Remove this module from `core-js@4` since it's split to modules listed below
 require("52e9b3eefbbce1ed");
@@ -2651,6 +2638,37 @@ exports.export = function(dest, destName, get) {
     });
 };
 
-},{}]},["ik2hV","aenu9"], "aenu9", "parcelRequire94c2")
+},{}],"Y4A21":[function(require,module,exports,__globalThis) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "state", ()=>state);
+parcelHelpers.export(exports, "loadRecipe", ()=>loadRecipe);
+const state = {
+    recipe: {}
+};
+const loadRecipe = async function(id) {
+    try {
+        const res = await fetch(`https://forkify-api.jonas.io/api/v2/recipes/${id}`);
+        const data = await res.json();
+        if (!res.ok) throw new Error(`${data.message} (${res.status})`);
+        // console.log(res, data);
+        const { recipe } = data.data; //data.data.recipe can be destruct
+        state.recipe = {
+            title: recipe.title,
+            id: recipe.id,
+            publisher: recipe.publisher,
+            servings: recipe.servings,
+            sourceUrl: recipe.source_url,
+            cookingTime: recipe.cooking_time,
+            image: recipe.image_url,
+            ingredients: recipe.ingredients
+        };
+    // console.log(recipe);
+    } catch (err) {
+        console.log(err);
+    }
+};
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["ik2hV","aenu9"], "aenu9", "parcelRequire94c2")
 
 //# sourceMappingURL=index.e37f48ea.js.map
