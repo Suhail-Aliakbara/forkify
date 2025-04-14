@@ -19,3 +19,19 @@ export const getJSON = async function (url) {
     throw err;
   }
 };
+
+/*
+import { TIMEOUT_SEC } from './config.js';
+
+const timeout = s =>
+  new Promise((_, reject) =>
+    setTimeout(() => reject(new Error(`Request took too long! Timeout after ${s} second`)), s * 1000)
+  );
+
+export const getJSON = async url => {
+  const res = await Promise.race([fetch(url), timeout(TIMEOUT_SEC)]);
+  if (!res.ok) throw new Error(`Failed to fetch: ${res.statusText} (${res.status})`);
+  return res.json();
+};
+
+*/

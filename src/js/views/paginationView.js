@@ -14,58 +14,60 @@ class paginationView extends views {
   _generateMarkup() {
     const numPages = Math.ceil(
       this._data.results.length / this._data.resultsPerPage
-    );
-    console.log(numPages);
-    const currPage = this._data.page;
+    ); // Calculates the total number of pages
+    const currPage = this._data.page; // Current page
 
-    //page 1 there are other pages
+    // Case 1: Page 1, and there are other pages
     if (currPage === 1 && numPages > 1) {
       return `
-         <button data-goto="${
-           currPage + 1
-         }" class="btn--inline pagination__btn--next">
-            <span>page ${currPage + 1}</span>
-            <svg class="search__icon">
-              <use href="${icons}#icon-arrow-right"></use>
-            </svg>
-          </button>
-          `;
+        <button data-goto="${
+          currPage + 1
+        }" class="btn--inline pagination__btn--next">
+          <span>Page ${currPage + 1}</span>
+          <svg class="search__icon">
+            <use href="${icons}#icon-arrow-right"></use>
+          </svg>
+        </button>
+      `;
     }
-    // Last page
+
+    // Case 2: Last page
     if (currPage === numPages && numPages > 1) {
       return `
         <button data-goto="${
           currPage - 1
         }" class="btn--inline pagination__btn--prev">
-            <svg class="search__icon">
-              <use href="${icons}#icon-arrow-left"></use>
-            </svg>
-            <span>page ${currPage - 1}</span>
-          </button>
+          <svg class="search__icon">
+            <use href="${icons}#icon-arrow-left"></use>
+          </svg>
+          <span>Page ${currPage - 1}</span>
+        </button>
       `;
     }
-    // other pages
+
+    // Case 3: Other pages
     if (currPage < numPages) {
       return `
-          <button data-goto="${
-            currPage - 1
-          }" class="btn--inline pagination__btn--prev">
-            <svg class="search__icon">
-              <use href="${icons}#icon-arrow-left"></use>
-            </svg>
-            <span>page ${currPage - 1}</span>
-          </button>
-          <button data-goto="${
-            currPage + 1
-          }" class="btn--inline pagination__btn--next">
-            <span>page ${currPage + 1}</span>
-            <svg class="search__icon">
-              <use href="${icons}#icon-arrow-right"></use>
-            </svg>
-          </button>
+        <button data-goto="${
+          currPage - 1
+        }" class="btn--inline pagination__btn--prev">
+          <svg class="search__icon">
+            <use href="${icons}#icon-arrow-left"></use>
+          </svg>
+          <span>Page ${currPage - 1}</span>
+        </button>
+        <button data-goto="${
+          currPage + 1
+        }" class="btn--inline pagination__btn--next">
+          <span>Page ${currPage + 1}</span>
+          <svg class="search__icon">
+            <use href="${icons}#icon-arrow-right"></use>
+          </svg>
+        </button>
       `;
     }
-    //page1 and there are no other pages
+
+    // Case 4: Page 1, and there are no other pages
     return '';
   }
 }
