@@ -51,6 +51,9 @@ const controlSearchResults = async function () {
     // 4) Render Pagination
     paginationView.render(model.state.search);
   } catch (err) {
+    resultsView.renderError(
+      'Something went wrong while fetching search results.'
+    );
     console.log(err);
   }
 };
@@ -72,6 +75,7 @@ const controlServing = function (newServings) {
   recipeView.update(model.state.recipe);
 };
 const init = function () {
+  // Add event handlers for rendering recipes, updating servings, searching, and pagination
   recipeView.addHandlerRender(controlRecipes);
   recipeView.addHandlerUpdateServings(controlServing);
   searchView.addHandlerSearch(controlSearchResults);

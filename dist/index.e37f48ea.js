@@ -642,6 +642,7 @@ const controlSearchResults = async function() {
         // 4) Render Pagination
         (0, _paginationViewJsDefault.default).render(_modelJs.state.search);
     } catch (err) {
+        (0, _resultsViewJsDefault.default).renderError('Something went wrong while fetching search results.');
         console.log(err);
     }
 };
@@ -659,6 +660,7 @@ const controlServing = function(newServings) {
     (0, _recipeViewJsDefault.default).update(_modelJs.state.recipe);
 };
 const init = function() {
+    // Add event handlers for rendering recipes, updating servings, searching, and pagination
     (0, _recipeViewJsDefault.default).addHandlerRender(controlRecipes);
     (0, _recipeViewJsDefault.default).addHandlerUpdateServings(controlServing);
     (0, _searchViewJsDefault.default).addHandlerSearch(controlSearchResults);
@@ -2181,7 +2183,6 @@ class views {
         this._parentElement.insertAdjacentHTML('afterbegin', markup);
     }
     update(data) {
-        if (!data || Array.isArray(data) && data.length === 0) return this.renderError();
         this._data = data;
         const newMarkup = this._generateMarkup();
         const newDom = document.createRange().createContextualFragment(newMarkup);
@@ -2190,10 +2191,12 @@ class views {
         newElements.forEach((newEl, i)=>{
             const curEl = curElements[i];
             console.log(curEl, newEl.isEqualNode(curEl));
+            //Update Change text
             if (!newEl.isEqualNode(curEl) && newEl.firstChild?.nodeValue.trim() !== '') {
                 console.log("\uD83D\uDCA5", newEl.firstChild?.nodeValue.trim());
                 curEl.textContent = newEl.textContent;
             }
+            //Update Change Attribute
             if (!newEl.isEqualNode(curEl)) Array.from(newEl.attributes).forEach((attr)=>curEl.setAttribute(attr.name, attr.value));
         });
     }

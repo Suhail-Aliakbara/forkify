@@ -13,9 +13,6 @@ export default class views {
     this._parentElement.insertAdjacentHTML('afterbegin', markup);
   }
   update(data) {
-    if (!data || (Array.isArray(data) && data.length === 0))
-      return this.renderError();
-
     this._data = data;
     const newMarkup = this._generateMarkup();
     const newDom = document.createRange().createContextualFragment(newMarkup);
@@ -26,6 +23,7 @@ export default class views {
       const curEl = curElements[i];
       console.log(curEl, newEl.isEqualNode(curEl));
 
+      //Update Change text
       if (
         !newEl.isEqualNode(curEl) &&
         newEl.firstChild?.nodeValue.trim() !== ''
@@ -33,6 +31,7 @@ export default class views {
         console.log('💥', newEl.firstChild?.nodeValue.trim());
         curEl.textContent = newEl.textContent;
       }
+      //Update Change Attribute
       if (!newEl.isEqualNode(curEl)) {
         Array.from(newEl.attributes).forEach(attr =>
           curEl.setAttribute(attr.name, attr.value)
