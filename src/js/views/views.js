@@ -75,7 +75,7 @@ export default class views {
 
   renderMessage(message = this._message) {
     const markup = ` 
-         <div class="Message">
+         <div class="message">
             <div>
               <svg>
                   <use href="${icons}#icon-smile"></use>
